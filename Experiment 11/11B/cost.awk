@@ -14,4 +14,5 @@ END {
 	print "Mechanical : " mec
 	print "Computers  : " cse
 	print "Civil      : " civ
+	print "Total      : " eee+mec+cse+civ
 }

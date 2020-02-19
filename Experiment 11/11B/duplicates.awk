@@ -1,1 +1,1 @@
-awk '!seen[$0]++'' duplic.txt
+!seen[$0]++
