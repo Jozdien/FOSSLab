@@ -1,7 +1,9 @@
 import sys
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
+import random
 from math import sqrt
+from math import factorial
  
 num = 0.0
 newNum = 0.0
@@ -10,6 +12,8 @@ operator = ""
  
 opVar = False
 sumIt = 0
+positions = [[10, 145], [50, 145], [90, 145], [10, 110], [50, 110], [90, 110], [10, 75], [50, 75], [90, 75]]
+random.shuffle(positions)
  
 class Main(QtGui.QMainWindow):
  
@@ -30,39 +34,39 @@ class Main(QtGui.QMainWindow):
         zero.resize(35,30)
  
         one = QtGui.QPushButton("1",self)
-        one.move(10,145)
+        one.move(positions[0][0],positions[0][1])
         one.resize(35,30)
  
         two = QtGui.QPushButton("2",self)
-        two.move(50,145)
+        two.move(positions[1][0],positions[1][1])
         two.resize(35,30)
  
         three = QtGui.QPushButton("3",self)
-        three.move(90,145)
+        three.move(positions[2][0],positions[2][1])
         three.resize(35,30)
  
         four = QtGui.QPushButton("4",self)
-        four.move(10,110)
+        four.move(positions[3][0],positions[3][1])
         four.resize(35,30)
  
         five = QtGui.QPushButton("5",self)
-        five.move(50,110)
+        five.move(positions[4][0],positions[4][1])
         five.resize(35,30)
  
         six = QtGui.QPushButton("6",self)
-        six.move(90,110)
+        six.move(positions[5][0],positions[5][1])
         six.resize(35,30)
  
         seven = QtGui.QPushButton("7",self)
-        seven.move(10,75)
+        seven.move(positions[6][0],positions[6][1])
         seven.resize(35,30)
  
         eight = QtGui.QPushButton("8",self)
-        eight.move(50,75)
+        eight.move(positions[7][0],positions[7][1])
         eight.resize(35,30)
  
         nine = QtGui.QPushButton("9",self)
-        nine.move(90,75)
+        nine.move(positions[8][0],positions[8][1])
         nine.resize(35,30)
  
         switch = QtGui.QPushButton("+/-",self)
@@ -91,10 +95,10 @@ class Main(QtGui.QMainWindow):
         plus.move(130,180)
         plus.resize(35,30)
  
-        sqrt = QtGui.QPushButton("sqrt",self)
+        sqrt = QtGui.QPushButton("fact",self)
         sqrt.move(170,75)
         sqrt.resize(35,30)
-        sqrt.clicked.connect(self.Sqrt)
+        sqrt.clicked.connect(self.Fact)
  
         squared = QtGui.QPushButton("^2",self)
         squared.move(170,110)
@@ -166,14 +170,13 @@ class Main(QtGui.QMainWindow):
             opVar = False
              
          
- 
+
     def pointClicked(self):
         global opVar
          
         if "." not in self.line.text():
-            self.line.setText(self.line.text() + ".")
-             
- 
+            self.line.setText(self.line.text() + ".")   
+
     def Switch(self):
         global num
          
@@ -184,19 +187,19 @@ class Main(QtGui.QMainWindow):
             num = float(self.line.text())
       
         num = num - num * 2
- 
+
         numStr = str(num)
          
         self.line.setText(numStr)
- 
+
     def Operator(self):
         global num
         global opVar
         global operator
         global sumIt
- 
+
         sumIt += 1
- 
+
         if sumIt > 1:
             self.Equal()
  
@@ -233,14 +236,18 @@ class Main(QtGui.QMainWindow):
             sumAll = float(num) - float(newNum)
  
         elif operator == "/":
-            sumAll = float(num) / float(newNum)
- 
+            try:
+                sumAll = float(num) / float(newNum)
+            except:
+                self.line.setText("Bad human. No division by zero.")
+                return
+
         elif operator == "*":
             sumAll = float(num) * float(newNum)
              
         print(sumAll)
         self.line.setText(str(sumAll))
-        opVar = True
+        opVar = True  
  
     def Back(self):
         self.line.backspace()
@@ -261,11 +268,12 @@ class Main(QtGui.QMainWindow):
     def CE(self):
         self.line.clear()
  
-    def Sqrt(self):
+    def Fact(self):
         global num
          
         num = float(self.line.text())
         n = sqrt(num)
+        n = factorial(num)
         num = n
  
         self.line.setText(str(num))
