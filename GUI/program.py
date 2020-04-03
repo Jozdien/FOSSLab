@@ -272,7 +272,6 @@ class Main(QtGui.QMainWindow):
         global num
          
         num = float(self.line.text())
-        n = sqrt(num)
         n = factorial(num)
         num = n
  
